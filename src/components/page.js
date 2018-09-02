@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import Pokemon from '../components/pokemon'
 import Search from '../components/search'
 
@@ -23,7 +24,7 @@ class Page extends Component {
     })
 
     return (
-      <div className="page">
+      <Container className="page">
         {error && <div className="page__error">{error}</div>}
         <div className="page__search">
           <Search onChange={this.handleSearch.bind(this)} />
@@ -33,9 +34,17 @@ class Page extends Component {
         ) : (
           <ul className="pokemons">{pokemons}</ul>
         )}
-      </div>
+      </Container>
     )
   }
 }
+
+//TODO: figure out why background isn't showing
+const Container = styled.div`
+  background: #cccccc url('../images/bkg.png') repeat fixed center;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 10px;
+`
 
 export default Page
