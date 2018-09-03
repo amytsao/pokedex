@@ -16,6 +16,7 @@ class Pokemon extends PureComponent {
           }}
         />
         <p className="pokemon__name">{pokemon.name}</p>
+        <p className="pokemon__generation">{pokemon.generation}</p>
       </div>
     )
   }

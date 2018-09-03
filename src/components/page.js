@@ -12,6 +12,10 @@ class Page extends Component {
     this.props.filterPokemons(event.currentTarget.value)
   }
 
+  handleSelect(event) {
+    console.log(event.target.value)
+  }
+
   render() {
     let { displayedPokemons, isFetched, error } = this.props
 
@@ -27,7 +31,10 @@ class Page extends Component {
       <Container className="page">
         {error && <div className="page__error">{error}</div>}
         <div className="page__search">
-          <Search onChange={this.handleSearch.bind(this)} />
+          <Search
+            onChange={this.handleSearch.bind(this)}
+            filterChange={this.handleSelect.bind(this)}
+          />
         </div>
         {isFetched ? (
           <p>Loading...</p>
