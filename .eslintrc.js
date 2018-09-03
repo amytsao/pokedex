@@ -1,1 +1,4 @@
-module.exports = { extends: 'airbnb-base' }
+module.exports = {
+  parser: 'babel-eslint',
+  extends: 'eslint-config-airbnb'
+}
