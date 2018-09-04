@@ -8,7 +8,7 @@ import {
 
 function setPokemons(data) {
   const pokemons = data.results.map(pokemon => {
-    let { url } = pokemon
+    const { url } = pokemon
     pokemon.id = url.substring(34, url.length - 1)
 
     return pokemon
@@ -20,13 +20,38 @@ function setPokemons(data) {
   }
 }
 
-export function getPokemons() {
+function setPokemonByFilter(data) {
+  const pokemons = data.pokemon_species.map(pokemon => {
+    const { url } = pokemon
+    pokemon.id = url.substring(42, url.length - 1)
+
+    return pokemon
+  })
+
+  pokemons.sort(function(a, b) {
+    return a.id - b.id
+  })
+  return {
+    type: SET_POKEMONS,
+    payload: pokemons
+  }
+}
+export function getPokemons(generation, searchText) {
   return dispatch => {
     dispatch({
       type: GET_POKEMONS_REQUEST
     })
 
-    return fetch(`https://pokeapi.co/api/v2/pokemon/?limit=784`)
+    // let = changing variable
+    // const = static variable
+    let url
+    if (generation) {
+      url = 'https://pokeapi.co/api/v2/generation/' + generation
+    } else {
+      url = 'https://pokeapi.co/api/v2/pokemon/?limit=784'
+    }
+
+    return fetch(url)
       .then(response => {
         if (response.ok) {
           return response.json()
@@ -38,8 +63,13 @@ export function getPokemons() {
         dispatch({
           type: GET_POKEMONS_SUCCESS
         })
-        dispatch(setPokemons(data))
-        dispatch(filterPokemons())
+        if (generation) {
+          dispatch(setPokemonByFilter(data))
+          dispatch(filterPokemons(searchText))
+        } else {
+          dispatch(setPokemons(data))
+          dispatch(filterPokemons())
+        }
       })
       .catch(error => {
         dispatch({
@@ -52,9 +82,9 @@ export function getPokemons() {
 
 export function filterPokemons(searchString = '') {
   return (dispatch, getState) => {
-    const displayedPokemons = getState().page.pokemons.filter(pokemon => {
-      return pokemon.name.includes(searchString.toLowerCase())
-    })
+    const displayedPokemons = getState().page.pokemons.filter(pokemon =>
+      pokemon.name.includes(searchString.toLowerCase())
+    )
 
     dispatch({
       type: FILTER_POKEMONS,

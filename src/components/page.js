@@ -1,23 +1,31 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import Pokemon from '../components/pokemon'
-import Search from '../components/search'
+import Pokemon from './pokemon'
+import Search from './search'
 
 class Page extends Component {
+  state = {
+    searchText: ''
+  }
+
   componentDidMount() {
     this.props.getPokemons()
   }
 
   handleSearch(event) {
     this.props.filterPokemons(event.currentTarget.value)
+    this.setState({
+      searchText: event.currentTarget.value
+    })
   }
 
   handleSelect(event) {
-    console.log(event.target.value)
+    this.props.getPokemons(event.currentTarget.value, this.state.searchText)
   }
 
   render() {
     let { displayedPokemons, isFetched, error } = this.props
+    console.log(displayedPokemons)
 
     let pokemons = displayedPokemons.map(pokemon => {
       return (

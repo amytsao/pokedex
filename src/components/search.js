@@ -8,11 +8,14 @@ const Search = ({ onChange, filterChange }) => (
       onChange={onChange}
       placeholder="Enter Pokemon name"
     />
-    <select name="region" onChange={filterChange}>
-      <option value="all">all</option>
-      <option value="generation-i">Gen 1</option>
-      <option value="generation-ii">Gen 2</option>
-      <option value="generation-iii">Gen 3</option>
+    <select name="generation" onChange={filterChange}>
+      <option value="">all</option>
+      <option value="1">Gen 1</option>
+      <option value="2">Gen 2</option>
+      <option value="3">Gen 3</option>
+      <option value="4">Gen 4</option>
+      <option value="5">Gen 5</option>
+      <option value="6">Gen 6</option>
     </select>
   </div>
 )
